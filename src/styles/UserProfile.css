@@ -1,0 +1,27 @@
+.user-profile {
+    max-width: 600px;
+    margin: auto;
+    padding: 2rem;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .user-profile h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #343a40;
+  }
+  
+  .user-profile p {
+    font-size: 1.1rem;
+    color: #495057;
+  }
+  
+  .loading, .error {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 1.2rem;
+    color: #dc3545;
+  }
+  

@@ -1,0 +1,53 @@
+.reviews-section {
+    max-width: 600px;
+    margin: auto;
+    padding: 2rem;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .reviews-section h4, .reviews-section h5 {
+    text-align: center;
+    color: #343a40;
+  }
+  
+  .review {
+    border-bottom: 1px solid #dee2e6;
+    padding: 1rem 0;
+  }
+  
+  .review p {
+    margin: 0.5rem 0;
+  }
+  
+  textarea {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+  }
+  
+  select {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+  }
+  
+  .btn {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border-radius: 5px;
+  }
+  
+  .loading, .error {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 1.2rem;
+    color: #dc3545;
+  }
+  
