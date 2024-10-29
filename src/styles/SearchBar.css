@@ -7,7 +7,8 @@
   }
   
   .search-bar:hover {
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+    box-shadow: 1px  30px 40px rgb(211, 209, 226); /* Enhanced shadow on hover */
+    ;
   }
   
   .form-control {

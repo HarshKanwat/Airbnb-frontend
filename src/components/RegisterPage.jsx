@@ -1,6 +1,6 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import axios from 'axios';
+import axiosInstance from '../../utils/axiosInstance.js';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import '../styles/RegisterPage.css';
@@ -8,7 +8,6 @@ import '../styles/RegisterPage.css';
 const RegisterPage = () => {
   const navigate = useNavigate();
 
-  // Validation Schema
   const validationSchema = Yup.object({
     name: Yup.string().required('Name is required'),
     email: Yup.string().email('Invalid email address').required('Email is required'),
@@ -19,14 +18,13 @@ const RegisterPage = () => {
 
   const handleSubmit = async (values, { setSubmitting, setErrors }) => {
     try {
-      const response = await axios.post('/api/register', values); // Adjust URL as needed
-      navigate('/login'); // Redirect to login after successful registration
+      const response = await axiosInstance.post('/auth/register', values);
+      navigate('/login');
     } catch (error) {
       console.error('Registration error:', error);
       if (error.response && error.response.data) {
-        // Display server-side validation errors
         setErrors({ server: error.response.data.message || 'Registration failed' });
-      } else {
+      } else if (error.message) {
         setErrors({ server: 'Registration failed. Please try again later.' });
       }
     } finally {

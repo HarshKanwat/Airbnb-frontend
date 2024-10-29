@@ -1,0 +1,34 @@
+.navbar-custom {
+  background: #343a40; /* Dark background */
+  z-index: 1050; /* Ensure navbar has a high z-index */
+}
+
+.navbar-custom .navbar-brand,
+.navbar-custom .nav-link,
+.navbar-custom .dropdown-toggle {
+  color: #ffffff; /* White text */
+}
+
+.navbar-custom .nav-link:hover,
+.navbar-custom .dropdown-toggle:hover {
+  color: #e7dada; /* Light grey on hover */
+}
+
+.navbar-custom .dropdown-menu {
+  background: #454d55; /* Slightly lighter background for dropdown */
+  z-index: 2000; /* Ensure dropdown menu is higher than the category icons */
+  position: relative; /* Ensure the dropdown is positioned relative to the navbar */
+}
+
+.navbar-custom .dropdown-item {
+  color: #ffffff; /* White text */
+}
+
+.navbar-custom .dropdown-item:hover {
+  background: #5c636a; /* Darker background on hover */
+  color: #ffffff; /* White text */
+}
+
+.category-bar {
+  z-index: 1000; /* Adjust if necessary */
+}

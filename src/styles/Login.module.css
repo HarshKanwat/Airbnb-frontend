@@ -1,24 +1,46 @@
-/* src/components/Login.css */
+.login-container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+}
 
-.container {
-  margin-top: 18px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 50vh;
-    border-radius: 50px;
-    background-color: #f8e9e9; /* Light background for contrast */
-  }
-  
-  .login-card {
-    background-color: #ffffff; /* White background for the card */
-    padding: 2rem;
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    width: 600px; /* Fixed width */
-  }
-  
-  .form-group {
-    margin-bottom: 1rem;
-  }
-  
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.text-danger {
+  color: red;
+  font-size: 0.9em;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+}
+
+.btn-primary:disabled {
+  background-color: #a7c8ff;
+}

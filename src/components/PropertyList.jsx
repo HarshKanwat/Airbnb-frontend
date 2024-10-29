@@ -1,41 +1,46 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import axiosInstance from '../../utils/axiosInstance';
+import '../styles/PropertyList.css'; // Ensure to style appropriately
 
 const PropertyList = () => {
   const [properties, setProperties] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const response = await axios.get('/api/properties'); // Adjust URL as needed
+        const response = await axiosInstance.get('/properties');
         setProperties(response.data);
       } catch (error) {
         console.error('Error fetching properties:', error);
+        setError('Failed to load properties. Please try again later.');
+      } finally {
+        setLoading(false);
       }
     };
-
     fetchProperties();
   }, []);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
+
   return (
-    <div>
-      <h2>Property Listings</h2>
-      <div className="row">
-        {Array.isArray(properties) && properties.map((property) => (
-          <div key={property._id} className="col-md-4">
-            <div className="card mb-4">
-              <img src={property.imageUrl} className="card-img-top" alt={property.title} />
-              <div className="card-body">
-                <h5 className="card-title">{property.title}</h5>
-                <p className="card-text">${property.price} per night</p>
-                <Link to={`/property/${property._id}`} className="btn btn-primary">
-                  View Details
-                </Link>
-              </div>
-            </div>
+    <div className="property-list">
+      {properties.map(property => (
+        <div key={property._id} className="property-card">
+          <img src={property.images[0]} alt={property.name} className="property-image" />
+          <div className="property-info">
+            <h3>{property.name}</h3>
+            <p>{property.description}</p>
+            <p><strong>${property.price}</strong> per night</p>
+            <Link to={`/property/${property._id}`} className="btn btn-primary">View Details</Link>
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
     </div>
-  )};  
+  );
+};
+
 export default PropertyList;

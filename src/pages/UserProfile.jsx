@@ -1,18 +1,23 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import '../styles/UserProfile.css'; // Import custom CSS
 
-const Profile = () => {
+const UserProfile = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const response = await axios.get('/api/users/profile'); // Adjust URL as needed
+        const token = localStorage.getItem('token');
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/users/profile`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
         setUser(response.data);
       } catch (error) {
         console.error('Error fetching user profile:', error);
@@ -21,7 +26,6 @@ const Profile = () => {
         setLoading(false);
       }
     };
-
     fetchUserProfile();
   }, []);
 
@@ -32,7 +36,10 @@ const Profile = () => {
 
   const handleSubmit = async (values, { setSubmitting, setErrors }) => {
     try {
-      const response = await axios.put('/api/users/profile', values); // Adjust URL as needed
+      const token = localStorage.getItem('token');
+      const response = await axios.put(`${import.meta.env.VITE_API_URL}/users/profile`, values, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
       setUser(response.data);
     } catch (error) {
       console.error('Error updating user profile:', error);
@@ -42,6 +49,11 @@ const Profile = () => {
     }
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/'); // Redirect to homepage after logout
+  };
+
   if (loading) return <div className="loading">Loading...</div>;
   if (error) return <div className="error">{error}</div>;
 
@@ -49,9 +61,10 @@ const Profile = () => {
     <div className="user-profile">
       <h2>Edit Profile</h2>
       <Formik
-        initialValues={{ name: user.name, email: user.email }}
+        initialValues={{ name: user?.name || '', email: user?.email || '' }}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
+        enableReinitialize
       >
         {({ isSubmitting, errors }) => (
           <Form>
@@ -76,8 +89,9 @@ const Profile = () => {
           </Form>
         )}
       </Formik>
+      <button onClick={handleLogout} className="btn btn-secondary mt-3">Logout</button>
     </div>
   );
 };
 
-export default Profile;
+export default UserProfile;

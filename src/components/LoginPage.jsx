@@ -1,47 +1,67 @@
-// src/components/LoginPage.js
 import React from 'react';
-import axios from 'axios'; // Import axios
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import axiosInstance from '../../utils/axiosInstance';
+import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
-import styles from '../styles/Login.module.css'; // Import the CSS module
+import '../styles/Login.module.css'; // Ensure the CSS file is correctly imported
 
-const Login = () => {
+const LoginPage = () => {
+  const navigate = useNavigate();
+  const validationSchema = Yup.object({
+    email: Yup.string().email('Invalid email address').required('Email is required'),
+    password: Yup.string().required('Password is required'),
+  });
+
+  const handleSubmit = async (values, { setSubmitting, setErrors }) => {
+    try {
+      const response = await axiosInstance.post('/auth/login', values);
+      localStorage.setItem('token', response.data.token);
+      navigate('/'); // Redirect to homepage after login
+    } catch (error) {
+      console.error('Login error:', error);
+      if (error.response && error.response.data) {
+        setErrors({ server: error.response.data.message || 'Login failed' });
+      } else if (error.message) {
+        setErrors({ server: 'Login failed. Please try again later.' });
+      }
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   return (
-    <div className={styles.container}>
-      <div className={styles.loginCard}>
-        <h2>Login</h2>
-        <Formik
-          initialValues={{ email: '', password: '' }}
-          validationSchema={Yup.object({
-            email: Yup.string().email('Invalid email address').required('Required'),
-            password: Yup.string().required('Required'),
-          })}
-          onSubmit={async (values) => {
-            try {
-              const response = await axios.post('/api/login', values);
-              console.log(response.data);
-            } catch (error) {
-              console.error(error);
-            }
-          }}
-        >
+    <div className="container login-container">
+      <h2 className="text-center mb-4">Login</h2>
+      <Formik
+        initialValues={{ email: '', password: '' }}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
+      >
+        {({ isSubmitting, errors }) => (
           <Form>
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
-              <Field name="email" type="email" className="form-control" />
+            <div className="form-group mb-3">
+              <label htmlFor="email" className="form-label">Email</label>
+              <Field type="email" id="email" name="email" className="form-control" />
               <ErrorMessage name="email" component="div" className="text-danger" />
             </div>
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <Field name="password" type="password" className="form-control" />
+            <div className="form-group mb-3">
+              <label htmlFor="password" className="form-label">Password</label>
+              <Field type="password" id="password" name="password" className="form-control" />
               <ErrorMessage name="password" component="div" className="text-danger" />
             </div>
-            <button type="submit" className="btn btn-primary">Login</button>
+            {errors.server && (
+              <div className="form-group mb-3">
+                <div className="text-danger">{errors.server}</div>
+              </div>
+            )}
+            <button type="submit" className="btn btn-primary w-100" disabled={isSubmitting}>
+              {isSubmitting ? 'Logging in...' : 'Login'}
+            </button>
           </Form>
-        </Formik>
-      </div>
+        )}
+      </Formik>
     </div>
   );
 };
 
-export default Login;
+export default LoginPage;
