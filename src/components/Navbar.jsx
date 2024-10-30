@@ -33,7 +33,9 @@ const NavbarComponent = () => {
           <Nav className="ms-auto">
             <Nav.Link as={Link} to="/stays">Stays</Nav.Link>
             <Nav.Link as={Link} to="/experiences">Experiences</Nav.Link>
-            <Nav.Link as={Link} to="https://www.airbnb.co.in/host/experiences?from_nav=1">Become a Host</Nav.Link>
+            {isLoggedIn && (
+              <Nav.Link as={Link} to="/host-management">Become a Host</Nav.Link> 
+            )}
             <Dropdown align="end">
               <Dropdown.Toggle variant="outline-secondary" id="dropdown-basic">
                 <i className="fa fa-user-circle" />

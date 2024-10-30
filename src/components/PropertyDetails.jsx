@@ -15,6 +15,7 @@ const PropertyDetails = () => {
   const [rating, setRating] = useState(5);
   const [reviewError, setReviewError] = useState('');
   const [showPayment, setShowPayment] = useState(false);
+  const [totalPrice, setTotalPrice] = useState(0); // State for total price
 
   const fetchReviews = async () => {
     try {
@@ -86,6 +87,10 @@ const PropertyDetails = () => {
     }
   };
 
+  const handleTotalPrice = (price) => {
+    setTotalPrice(price); // Update total price based on booking
+  };
+
   if (loading) return <div className="loading">Loading...</div>;
   if (error) return <div className="error">{error}</div>;
 
@@ -101,16 +106,21 @@ const PropertyDetails = () => {
       <h3>Book This Property</h3>
       {!showPayment ? (
         <>
-          <Booking propertyId={id} propertyPrice={property?.price} />
+          <Booking 
+            propertyId={id} 
+            propertyPrice={property?.price} 
+            onTotalPriceChange={handleTotalPrice} // Pass the handler to Booking
+          />
           <button 
             className="btn btn-primary mt-3" 
             onClick={() => setShowPayment(true)}
+            disabled={totalPrice === 0} // Disable if total price is 0
           >
             Proceed to Payment
           </button>
         </>
       ) : (
-        <PaymentPage />
+        <PaymentPage bookingId={id} amount={totalPrice} /> // Pass bookingId and total price to PaymentPage
       )}
 
       <hr />

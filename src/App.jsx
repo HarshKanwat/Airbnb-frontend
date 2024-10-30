@@ -8,6 +8,9 @@ import UserProfile from './pages/UserProfile';
 import Navbar from './components/Navbar';
 import HomePage from './pages/HomePage';
 import Footer from './components/Footer';
+import UserBookings from './pages/UserBooking'; // Import UserBookings
+import UserReviews from './pages/UserReview';   // Import UserReviews
+import HostManagement from './components/HostManagement'; // Import HostManagement
 
 const App = () => {
   const location = useLocation();
@@ -23,6 +26,9 @@ const App = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/profile" element={<UserProfile />} />
+          <Route path="/stays" element={<UserBookings />} />         {/* Stays Page */}
+          <Route path="/experiences" element={<UserReviews />} />    {/* Experiences Page */}
+          <Route path="/host-management" element={<HostManagement />} /> {/* Host Management Page */}
         </Routes>
       </div>
       <Footer />
