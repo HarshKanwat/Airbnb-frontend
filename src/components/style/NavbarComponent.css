@@ -1,6 +1,7 @@
 .navbar-custom {
   background: #343a40; /* Dark background */
   z-index: 1050; /* Ensure navbar has a high z-index */
+  position: relative; /* Set position to ensure dropdown works correctly */
 }
 
 .navbar-custom .navbar-brand,
@@ -17,7 +18,10 @@
 .navbar-custom .dropdown-menu {
   background: #454d55; /* Slightly lighter background for dropdown */
   z-index: 2000; /* Ensure dropdown menu is higher than the category icons */
-  position: relative; /* Ensure the dropdown is positioned relative to the navbar */
+  position: absolute; /* Set position to absolute for proper dropdown behavior */
+  top: 100%; /* Align dropdown below the toggle */
+  left: 0; /* Align dropdown to the left */
+  right: 0; /* Allow dropdown to expand full width */
 }
 
 .navbar-custom .dropdown-item {
@@ -31,4 +35,5 @@
 
 .category-bar {
   z-index: 1000; /* Adjust if necessary */
+  position: relative; /* Ensure category bar is also positioned relative */
 }

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axiosInstance from '../../utils/axiosInstance';
 import { useParams } from 'react-router-dom';
 import Booking from './Booking';
+import PaymentPage from './PaymentPage';
 import '../styles/PropertyDetails.css';
 
 const PropertyDetails = () => {
@@ -13,6 +14,7 @@ const PropertyDetails = () => {
   const [reviewText, setReviewText] = useState('');
   const [rating, setRating] = useState(5);
   const [reviewError, setReviewError] = useState('');
+  const [showPayment, setShowPayment] = useState(false);
 
   const fetchReviews = async () => {
     try {
@@ -67,6 +69,23 @@ const PropertyDetails = () => {
     }
   };
 
+  const deleteReview = async (reviewId) => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      setReviewError('Please log in to delete a review.');
+      return;
+    }
+    try {
+      await axiosInstance.delete(`/reviews/${id}/reviews/${reviewId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      fetchReviews(); // Refresh the list of reviews
+    } catch (error) {
+      console.error('Error deleting review:', error);
+      setReviewError('Failed to delete review. Please try again.');
+    }
+  };
+
   if (loading) return <div className="loading">Loading...</div>;
   if (error) return <div className="error">{error}</div>;
 
@@ -80,7 +99,19 @@ const PropertyDetails = () => {
       <p><strong>${property?.price} per night</strong></p>
 
       <h3>Book This Property</h3>
-      <Booking propertyId={id} propertyPrice={property?.price} />
+      {!showPayment ? (
+        <>
+          <Booking propertyId={id} propertyPrice={property?.price} />
+          <button 
+            className="btn btn-primary mt-3" 
+            onClick={() => setShowPayment(true)}
+          >
+            Proceed to Payment
+          </button>
+        </>
+      ) : (
+        <PaymentPage />
+      )}
 
       <hr />
 
@@ -89,6 +120,12 @@ const PropertyDetails = () => {
         <div key={review._id} className="review">
           <p>{review.text}</p>
           <p>Rating: {review.rating}</p>
+          <button 
+            className="btn btn-danger btn-sm" 
+            onClick={() => deleteReview(review._id)}
+          >
+            Delete
+          </button>
         </div>
       ))}
       <h4>Leave a Review</h4>
