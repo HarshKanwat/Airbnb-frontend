@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import CategoryBar from '../components/CategoryBar'; // Ensure correct import
 import SearchBar from '../components/SearchBar'; // Ensure SearchBar is imported
@@ -14,9 +15,13 @@ const HomePage = () => {
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/properties`);
-        setProperties(response.data);
-        setFilteredProperties(response.data); // Initially show all properties
+        const response = await axios.get(`${import.meta.env.VITE_API_URI}/properties`); // Ensure VITE_API_URI matches
+        if (Array.isArray(response.data)) {
+          setProperties(response.data);
+          setFilteredProperties(response.data); // Initially show all properties
+        } else {
+          throw new Error('Data is not an array');
+        }
       } catch (error) {
         console.error('Error fetching properties:', error);
         setError('Failed to load properties. Please try again later.');
@@ -50,29 +55,6 @@ const HomePage = () => {
                 <p className="card-text">{property.description}</p>
                 <p>${property.price} per night</p>
                 <Link to={`/property/${property._id}`} className="btn btn-primary">View Details</Link>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
-
-const cardStyle = {
-  borderRadius: '15px',
-  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-  overflow: 'hidden',
-  border: 'none',
-};
-
-export default HomePage;
-Key Changes:
-Initial State: Ensure filteredProperties is initialized as an empty array.
-
-Array Check: Check if the response data is an array before setting it to properties and filteredProperties.
-
-With these changes, your component should handle the data properly and avoid the map error. If you run into any other issues or need further assistance, feel free to ask! 😊🚀
               </div>
             </div>
           </div>
