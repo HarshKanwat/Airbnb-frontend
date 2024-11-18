@@ -15,7 +15,7 @@ const HomePage = () => {
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URI}/properties`); // Ensure VITE_API_URI matches
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/properties`); // Ensure VITE_API_URL matches
         if (Array.isArray(response.data)) {
           setProperties(response.data);
           setFilteredProperties(response.data); // Initially show all properties
