@@ -49,7 +49,30 @@ const HomePage = () => {
                 <h5 className="card-title">{property.name}</h5>
                 <p className="card-text">{property.description}</p>
                 <p>${property.price} per night</p>
-                <a href={`/property/${property._id}`} className="btn btn-primary">View Details</a>
+                <Link to={`/property/${property._id}`} className="btn btn-primary">View Details</Link>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const cardStyle = {
+  borderRadius: '15px',
+  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+  overflow: 'hidden',
+  border: 'none',
+};
+
+export default HomePage;
+Key Changes:
+Initial State: Ensure filteredProperties is initialized as an empty array.
+
+Array Check: Check if the response data is an array before setting it to properties and filteredProperties.
+
+With these changes, your component should handle the data properly and avoid the map error. If you run into any other issues or need further assistance, feel free to ask! 😊🚀
               </div>
             </div>
           </div>
